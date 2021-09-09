@@ -1,13 +1,19 @@
-orbs:
-  browser-tools: circleci/browser-tools@1.1.0
+version: 2.1
+
+workflows:
+  test-deploy:
+  jobs:
+    - test
+
 jobs:
-  build:
+  test:
     docker:
-      - image: cimg/node:15.0.1-browsers
+      - image: cimg/node:16.8.0
     steps:
-      - browser-tools/install-browser-tools
       - checkout
-      - run: |
-          node --version
-          java --version
-          google-chrome --version
+      - run:
+          name: Insatll dependencies
+          command: npm install
+      - run:
+          name: Run Tests
+          command: npm run tests
